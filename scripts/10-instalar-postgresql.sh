@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 # Script para instalar y configurar PostgreSQL en Ubuntu/WSL
@@ -7,13 +7,25 @@ set -e
 
 echo "🐘 Iniciando el proceso de instalación y configuración de PostgreSQL..."
 
+# Función para leer entrada compatible con Zsh y Bash
+read_prompt() {
+  local __msg="$1"
+  local __varname="$2"
+  if [[ -n "$ZSH_VERSION" ]]; then
+    echo -n "$__msg"
+    read "$__varname"
+  else
+    read -p "$__msg" "$__varname"
+  fi
+}
+
 # 1. Actualizar el sistema
 echo "📦 [1/8] Actualizando sistema..."
 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
 
 # 2. Solicitar versión (por defecto 16)
 default_pg_version="16"
-read -p "👉 ¿Qué versión de PostgreSQL deseas instalar? (ENTER para instalar $default_pg_version): " pg_version
+read_prompt "👉 ¿Qué versión de PostgreSQL deseas instalar? (ENTER para instalar $default_pg_version): " pg_version
 pg_version=${pg_version:-$default_pg_version}
 echo "🔁 Se instalará PostgreSQL $pg_version"
 
