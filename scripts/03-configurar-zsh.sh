@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 # Script para configurar Oh My Zsh en Ubuntu y WSL

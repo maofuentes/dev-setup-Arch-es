@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 # Script para instalar y configurar PostgreSQL en Ubuntu/WSL

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 # Script para instalar Docker Engine y Docker Compose en Ubuntu

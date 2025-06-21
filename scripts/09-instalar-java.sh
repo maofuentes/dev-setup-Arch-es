@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 # Script para instalar Java (JDK) y Maven con SDKMAN!

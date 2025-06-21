@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 # Script para instalar y configurar Node.js en Ubuntu con nodenv
