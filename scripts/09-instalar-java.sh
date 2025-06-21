@@ -3,9 +3,21 @@ set -e
 
 # Script para instalar Java (JDK) y Maven con SDKMAN!
 # Autor: Brayan Diaz C
-# Fecha: 20 jun 2025
+# Fecha: 21 jun 2025
 
 echo "☕ Iniciando instalación de Java (JDK) y Maven usando SDKMAN..."
+
+# Función compatible para lectura de entrada en Zsh y Bash
+read_prompt() {
+  local __msg="$1"
+  local __varname="$2"
+  if [[ -n "$ZSH_VERSION" ]]; then
+    echo -n "$__msg"
+    read "$__varname"
+  else
+    read -p "$__msg" "$__varname"
+  fi
+}
 
 # 1. Instalar dependencias básicas
 echo "📦 [1/9] Verificando dependencias necesarias..."
@@ -55,7 +67,7 @@ sdk list java | grep -E 'tem|lts' | grep -v -E 'ea|rc|fx'
 
 # 7. Solicitar versión o usar última LTS por defecto
 latest_lts=$(sdk list java | grep -E '\s+tem.*-lts\s+' | grep -v -E 'ea|rc' | head -1 | awk '{print $NF}')
-read -p "👉 ¿Qué versión de Java deseas instalar? (ENTER para instalar la última LTS: $latest_lts): " java_version
+read_prompt "👉 ¿Qué versión de Java deseas instalar? (ENTER para instalar la última LTS: $latest_lts): " java_version
 
 if [[ -z "$java_version" ]]; then
   java_version=$latest_lts
