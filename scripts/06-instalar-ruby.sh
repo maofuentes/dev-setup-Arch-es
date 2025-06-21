@@ -7,6 +7,18 @@ set -e
 
 echo "💎 Iniciando el proceso de instalación y configuración de Ruby con rbenv..."
 
+# Función reutilizable para leer entradas compatible con zsh y bash
+read_prompt() {
+  local __msg="$1"
+  local __varname="$2"
+  if [[ -n "$ZSH_VERSION" ]]; then
+    echo -n "$__msg"
+    read "$__varname"
+  else
+    read -p "$__msg" "$__varname"
+  fi
+}
+
 # 1. Actualizar sistema y dependencias
 echo "📦 [1/10] Actualizando el sistema..."
 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
@@ -82,7 +94,7 @@ rbenv install --list
 # 8. Solicitar versión con opción por defecto automática
 echo
 ruby_latest=$(rbenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
-read -p "👉 ¿Qué versión de Ruby deseas instalar? (ENTER para instalar la última versión estable: $ruby_latest): " ruby_version
+read_prompt "👉 ¿Qué versión de Ruby deseas instalar? (ENTER para instalar la última versión estable: $ruby_latest): " ruby_version
 
 if [[ -z "$ruby_version" ]]; then
   ruby_version=$ruby_latest
