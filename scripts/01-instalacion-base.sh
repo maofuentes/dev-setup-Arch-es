@@ -46,5 +46,3 @@ liblzma-dev python3-openssl
 
 echo "✅ ¡Sistema configurado exitosamente!"
 echo "🧠 Puedes continuar instalando herramientas específicas desde la carpeta scripts/"
-
-# Fin del script
