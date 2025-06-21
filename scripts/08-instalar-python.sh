@@ -7,6 +7,18 @@ set -e
 
 echo "🐍 Iniciando el proceso de instalación y configuración de Python con pyenv..."
 
+# Función compatible para leer entrada desde Bash o Zsh
+read_prompt() {
+  local __msg="$1"
+  local __varname="$2"
+  if [[ -n "$ZSH_VERSION" ]]; then
+    echo -n "$__msg"
+    read "$__varname"
+  else
+    read -p "$__msg" "$__varname"
+  fi
+}
+
 # 1. Actualizar el sistema
 echo "📦 [1/10] Actualizando el sistema..."
 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
@@ -73,7 +85,7 @@ pyenv install --list
 
 # 7. Solicitar versión o usar la última estable
 python_latest=$(pyenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
-read -p "👉 ¿Qué versión de Python deseas instalar? (ENTER para instalar la última versión estable: $python_latest): " python_version
+read_prompt "👉 ¿Qué versión de Python deseas instalar? (ENTER para instalar la última versión estable: $python_latest): " python_version
 
 if [[ -z "$python_version" ]]; then
   python_version=$python_latest
