@@ -3,9 +3,16 @@ set -e
 
 # Script para instalar Docker Engine y Docker Compose en Ubuntu
 # Autor: Brayan Diaz C
-# Fecha: 21 jun 2025
+# Fecha: 20 jun 2025
 
 echo "🐳 Iniciando instalación de Docker y Docker Compose..."
+
+# 0. Detectar si estás usando WSL y Docker Desktop ya está activo
+if grep -qEi "(Microsoft|WSL)" /proc/version && docker version &>/dev/null; then
+  echo "🧠 Detectado: Estás en WSL y Docker Desktop ya está en funcionamiento."
+  echo "✅ No es necesario instalar Docker manualmente en este entorno."
+  exit 0
+fi
 
 # 1. Eliminar versiones anteriores si existen
 echo "📦 [1/8] Eliminando versiones antiguas de Docker..."
@@ -49,4 +56,4 @@ echo "⚠️ Debes cerrar sesión y volver a iniciarla para usar Docker sin sudo
 # 8. Mensaje final
 echo
 echo "🎉 Docker y Docker Compose han sido instalados correctamente."
-echo "Reinicia tu sesión para aplicar los cambios de grupo."
+echo "🔁 Reinicia tu sesión para aplicar los cambios de grupo."
