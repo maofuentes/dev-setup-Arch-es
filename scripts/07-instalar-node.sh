@@ -3,9 +3,21 @@ set -e
 
 # Script para instalar y configurar Node.js en Ubuntu con nodenv
 # Autor: Brayan Diaz C
-# Fecha: 27 nov 2024 (actualizado 20 jun 2025)
+# Fecha: 27 nov 2024 (actualizado 21 jun 2025)
 
 echo "🟢 Iniciando el proceso de instalación y configuración de Node.js con nodenv..."
+
+# Función de lectura compatible con Zsh y Bash
+read_prompt() {
+  local __msg="$1"
+  local __varname="$2"
+  if [[ -n "$ZSH_VERSION" ]]; then
+    echo -n "$__msg"
+    read "$__varname"
+  else
+    read -p "$__msg" "$__varname"
+  fi
+}
 
 # 1. Instalar dependencias necesarias
 echo "📦 [1/10] Instalando dependencias necesarias..."
@@ -78,7 +90,7 @@ nodenv install --list
 
 # 8. Elegir versión o usar la última disponible automáticamente
 node_latest=$(nodenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
-read -p "👉 ¿Qué versión de Node.js deseas instalar? (ENTER para instalar la última versión estable: $node_latest): " node_version
+read_prompt "👉 ¿Qué versión de Node.js deseas instalar? (ENTER para instalar la última versión estable: $node_latest): " node_version
 
 if [[ -z "$node_version" ]]; then
   node_version=$node_latest
