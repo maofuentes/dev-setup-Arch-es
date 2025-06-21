@@ -34,7 +34,7 @@ Proyecto modular y ordenado que permite instalar y configurar cada tecnología p
 ## 🚀 Instalación paso a paso
 
 ```bash
-git clone https://github.com/usuario/dev-setup-ubuntu-es.git
+git clone https://github.com/brayandiazc/dev-setup-ubuntu-es.git
 cd dev-setup-ubuntu-es
 chmod +x scripts/*.sh  # Otorga permisos de ejecución a todos los scripts
 ```
