@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/bash
 set -e
 
 # Script para generar y configurar claves SSH para Git y GitHub

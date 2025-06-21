@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/bash
 set -e
 
 # Configurar entorno de desarrollo en Ubuntu/WSL
