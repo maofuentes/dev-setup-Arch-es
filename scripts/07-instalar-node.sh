@@ -36,47 +36,34 @@ else
   git clone https://github.com/nodenv/nodenv.git ~/.nodenv
 fi
 
-# 3. Detectar shell del usuario
-user_shell=$(basename "$SHELL")
+# 3. Añadir configuración a archivos de entorno
+echo "🧩 [2/10] Agregando configuración de nodenv a archivos de entorno..."
 
-case "$user_shell" in
-  bash)
-    shell_config_file="$HOME/.bashrc"
-    ;;
-  zsh)
-    shell_config_file="$HOME/.zshrc"
-    ;;
-  *)
-    echo "⚠️ Shell '$user_shell' no reconocida automáticamente."
-    echo "Agrega manualmente estas líneas a tu archivo de configuración:"
-    echo 'export PATH="$HOME/.nodenv/bin:$PATH"'
-    echo 'eval "$(nodenv init -)"'
-    echo 'export PATH="$HOME/.nodenv/plugins/node-build/bin:$PATH"'
-    shell_config_file=""
-    ;;
-esac
+for config_file in "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile" "$HOME/.zprofile"; do
+  if [ ! -f "$config_file" ]; then
+    touch "$config_file"
+  fi
+  if ! grep -q 'nodenv init' "$config_file"; then
+    {
+      echo ''
+      echo '# Configuración de nodenv'
+      echo 'export PATH="$HOME/.nodenv/bin:$PATH"'
+      echo 'eval "$(nodenv init -)"'
+      echo 'export PATH="$HOME/.nodenv/plugins/node-build/bin:$PATH"'
+    } >> "$config_file"
+    echo "✅ Configuración añadida en $config_file"
+  else
+    echo "ℹ️ $config_file ya contiene configuración de nodenv. Saltando."
+  fi
+done
 
-# 4. Escribir configuración en el archivo correspondiente
-if [[ -n "$shell_config_file" ]]; then
-  echo "🧩 [2/10] Agregando configuración de nodenv a $shell_config_file"
-  {
-    echo ''
-    echo '# Configuración de nodenv'
-    echo 'export PATH="$HOME/.nodenv/bin:$PATH"'
-    echo 'eval "$(nodenv init -)"'
-    echo 'export PATH="$HOME/.nodenv/plugins/node-build/bin:$PATH"'
-  } >> "$shell_config_file"
-fi
-
-# 5. Aplicar configuración temporal si es posible
+# 4. Aplicar configuración temporal
 echo "🔄 [3/10] Aplicando configuración temporal..."
-if [[ "$user_shell" == "zsh" && -f "$HOME/.zshrc" ]]; then
-  source ~/.zshrc || echo "⚠️ No se pudo recargar. Cierra y abre tu terminal."
-elif [[ "$user_shell" == "bash" && -f "$HOME/.bashrc" ]]; then
-  source ~/.bashrc || echo "⚠️ No se pudo recargar. Cierra y abre tu terminal."
-fi
+export PATH="$HOME/.nodenv/bin:$PATH"
+eval "$(nodenv init -)"
+export PATH="$HOME/.nodenv/plugins/node-build/bin:$PATH"
 
-# 6. Instalar node-build
+# 5. Instalar node-build si no está presente
 if [ ! -d "$(nodenv root)/plugins/node-build" ]; then
   echo "🔧 [4/10] Instalando plugin node-build..."
   git clone https://github.com/nodenv/node-build.git "$(nodenv root)/plugins/node-build"
@@ -84,11 +71,11 @@ else
   echo "✅ node-build ya está instalado."
 fi
 
-# 7. Mostrar versiones disponibles
+# 6. Mostrar versiones disponibles
 echo "📜 [5/10] Estas son las versiones de Node.js disponibles:"
 nodenv install --list
 
-# 8. Elegir versión o usar la última disponible automáticamente
+# 7. Solicitar versión o usar la última
 node_latest=$(nodenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
 read_prompt "👉 ¿Qué versión de Node.js deseas instalar? (ENTER para instalar la última versión estable: $node_latest): " node_version
 
@@ -99,17 +86,17 @@ else
   echo "📥 Se instalará Node.js $node_version según tu elección."
 fi
 
-# 9. Instalar y establecer versión global
+# 8. Instalar y establecer versión global
 echo "⬇️ [6/10] Instalando Node.js $node_version..."
 nodenv install "$node_version"
 nodenv global "$node_version"
 
-# 10. Verificar instalación
+# 9. Verificar instalación
 echo "🔍 [7/10] Verificando instalación..."
 node -v
 npm -v
 
-# 11. Instrucciones para actualizar en el futuro
+# 10. Instrucciones para actualizar
 echo "🛠️ [8/10] Para actualizar nodenv y node-build en el futuro:"
 echo "cd ~/.nodenv && git pull"
 echo "cd \"\$(nodenv root)/plugins/node-build\" && git pull"
