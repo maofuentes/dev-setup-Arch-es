@@ -39,87 +39,74 @@ else
   git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 fi
 
-# 3. Detectar shell y archivo de configuración
-user_shell=$(basename "$SHELL")
+# 3. Configurar entorno en .bashrc, .zshrc, .profile y .zprofile
+echo "🧩 [2/10] Añadiendo configuración a los archivos de entorno..."
 
-case "$user_shell" in
-  bash)
-    shell_config_file="$HOME/.bashrc"
-    ;;
-  zsh)
-    shell_config_file="$HOME/.zshrc"
-    ;;
-  *)
-    echo "⚠️ Shell '$user_shell' no reconocida automáticamente."
-    echo "Agrega manualmente estas líneas a tu archivo de configuración:"
-    echo 'export PATH="$HOME/.rbenv/bin:$PATH"'
-    echo 'eval "$(rbenv init -)"'
-    echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"'
-    shell_config_file=""
-    ;;
-esac
+for config_file in "$HOME/.bashrc" "$HOME/.zshrc" "$HOME/.profile" "$HOME/.zprofile"; do
+  if [ ! -f "$config_file" ]; then
+    touch "$config_file"
+  fi
+  if ! grep -q 'rbenv init' "$config_file"; then
+    {
+      echo ''
+      echo '# Configuración de rbenv'
+      echo 'export PATH="$HOME/.rbenv/bin:$PATH"'
+      echo 'eval "$(rbenv init -)"'
+      echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"'
+    } >> "$config_file"
+    echo "✅ Configuración añadida en $config_file"
+  else
+    echo "ℹ️ $config_file ya contiene configuración de rbenv. Saltando."
+  fi
+done
 
-# 4. Escribir configuración de entorno si se reconoce la shell
-if [[ -n "$shell_config_file" ]]; then
-  echo "🧩 [2/10] Agregando configuración de rbenv a $shell_config_file"
-  {
-    echo ''
-    echo '# Configuración de rbenv'
-    echo 'export PATH="$HOME/.rbenv/bin:$PATH"'
-    echo 'eval "$(rbenv init -)"'
-    echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"'
-  } >> "$shell_config_file"
-fi
+# 4. Aplicar configuración temporal
+echo "🔄 [3/10] Aplicando configuración temporal..."
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 
-# 5. Aplicar configuración (solo si es posible)
-echo "🔄 [3/10] Intentando aplicar la configuración de entorno..."
-if [[ "$user_shell" == "zsh" && -f "$HOME/.zshrc" ]]; then
-  source ~/.zshrc || echo "⚠️ No se pudo recargar. Cierra y abre tu terminal."
-elif [[ "$user_shell" == "bash" && -f "$HOME/.bashrc" ]]; then
-  source ~/.bashrc || echo "⚠️ No se pudo recargar. Cierra y abre tu terminal."
-fi
-
-# 6. Instalar ruby-build
+# 5. Instalar ruby-build
 echo "🔧 [4/10] Instalando ruby-build para rbenv..."
 if [ ! -d "$(rbenv root)/plugins/ruby-build" ]; then
-  git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+  git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)/plugins/ruby-build"
 else
   echo "✅ ruby-build ya está instalado."
 fi
 
-# 7. Mostrar versiones disponibles
+# 6. Mostrar versiones disponibles
 echo "📜 [5/10] Estas son las versiones de Ruby disponibles:"
 rbenv install --list
 
-# 8. Solicitar versión con opción por defecto automática
+# 7. Solicitar versión con opción por defecto automática
 echo
 ruby_latest=$(rbenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
 read_prompt "👉 ¿Qué versión de Ruby deseas instalar? (ENTER para instalar la última versión estable: $ruby_latest): " ruby_version
 
 if [[ -z "$ruby_version" ]]; then
   ruby_version=$ruby_latest
-  echo "🔁 No se ingresó ninguna versión. Se instalará la última versión estable: $ruby_version"
+  echo "🔁 No se ingresó ninguna versión. Se instalará: $ruby_version"
 else
   echo "📥 Se instalará Ruby $ruby_version según tu elección."
 fi
 
-# 9. Instalar la versión seleccionada
+# 8. Instalar la versión seleccionada
 echo "⬇️ [6/10] Instalando Ruby $ruby_version..."
 rbenv install "$ruby_version"
 rbenv global "$ruby_version"
 
-# 10. Verificar instalación
+# 9. Verificar instalación
 echo "🔍 [7/10] Verificando instalación de Ruby..."
 ruby -v
 
-# 11. Instalar Bundler y actualizar RubyGems
+# 10. Instalar Bundler y actualizar RubyGems
 echo "📦 [8/10] Instalando Bundler..."
 gem install bundler
 
 echo "🔁 [9/10] Actualizando RubyGems..."
 gem update --system
 
-# 12. Instrucciones futuras
+# 11. Instrucciones futuras
 echo "🛠️ [10/10] Para actualizar rbenv y ruby-build en el futuro:"
 echo "cd ~/.rbenv && git pull"
 echo "cd \"\$(rbenv root)/plugins/ruby-build\" && git pull"
