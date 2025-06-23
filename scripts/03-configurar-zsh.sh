@@ -20,14 +20,27 @@ else
   echo "⚠️ No se encontró la línea de plugins en .zshrc. Añádela manualmente."
 fi
 
-# 3. Aplicar cambios
+# 3. Crear .zprofile si no existe y asegurar que cargue .zshrc
+echo "🧩 Verificando archivo .zprofile..."
+if [ ! -f "$HOME/.zprofile" ]; then
+  echo "📄 Creando archivo .zprofile..."
+  touch "$HOME/.zprofile"
+fi
+
+if ! grep -q 'source ~/.zshrc' "$HOME/.zprofile"; then
+  echo "🔄 Añadiendo carga de .zshrc en .zprofile..."
+  echo '' >> "$HOME/.zprofile"
+  echo '# Cargar configuración de Zsh interactiva también en login shells' >> "$HOME/.zprofile"
+  echo 'source ~/.zshrc' >> "$HOME/.zprofile"
+fi
+
+# 4. Aplicar cambios (solo surtirá efecto en sesión interactiva actual)
 echo "🔁 Aplicando cambios..."
-# NOTA: Este comando solo tendrá efecto si ya estás dentro de una sesión Zsh
 source ~/.zshrc
 
-# 4. Instalar fuentes Powerline
+# 5. Instalar fuentes Powerline
 echo "🔡 Instalando fuentes Powerline para una mejor visualización..."
 sudo apt install -y fonts-powerline
 
-# 5. Mensaje final
+# 6. Mensaje final
 echo "✅ Configuración de Oh My Zsh completada con éxito."
