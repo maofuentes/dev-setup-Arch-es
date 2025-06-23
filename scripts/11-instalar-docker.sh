@@ -1,59 +1,70 @@
-#!/usr/bin/bash
+#!/usr/bin/env zsh
 set -e
 
 # Script para instalar Docker Engine y Docker Compose en Ubuntu
 # Autor: Brayan Diaz C
-# Fecha: 20 jun 2025
+# Fecha: 21 jun 2025
 
 echo "🐳 Iniciando instalación de Docker y Docker Compose..."
 
-# 0. Detectar si estás usando WSL y Docker Desktop ya está activo
+# Función de lectura compatible con Zsh y Bash (reservada por consistencia)
+read_prompt() {
+  local __msg="$1"
+  local __varname="$2"
+  if [[ -n "$ZSH_VERSION" ]]; then
+    echo -n "$__msg"
+    read "$__varname"
+  else
+    read -p "$__msg" "$__varname"
+  fi
+}
+
+# 1. Detectar WSL + Docker Desktop
 if grep -qEi "(Microsoft|WSL)" /proc/version && docker version &>/dev/null; then
-  echo "🧠 Detectado: Estás en WSL y Docker Desktop ya está en funcionamiento."
-  echo "✅ No es necesario instalar Docker manualmente en este entorno."
+  echo "🧠 Detectado: Estás en WSL y Docker Desktop ya está funcionando."
+  echo "✅ No se requiere instalación manual de Docker en este entorno."
   exit 0
 fi
 
-# 1. Eliminar versiones anteriores si existen
+# 2. Eliminar versiones antiguas si existen
 echo "📦 [1/8] Eliminando versiones antiguas de Docker..."
 sudo apt remove -y docker docker-engine docker.io containerd runc || true
 
-# 2. Actualizar e instalar dependencias necesarias
-echo "🔧 [2/8] Actualizando sistema e instalando dependencias..."
+# 3. Instalar dependencias necesarias
+echo "🔧 [2/8] Instalando dependencias..."
 sudo apt update
 sudo apt install -y ca-certificates curl gnupg lsb-release
 
-# 3. Añadir clave GPG oficial de Docker
-echo "🔐 [3/8] Añadiendo clave GPG de Docker..."
+# 4. Añadir clave GPG
+echo "🔐 [3/8] Añadiendo clave GPG oficial de Docker..."
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
   sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# 4. Añadir repositorio oficial de Docker
-echo "➕ [4/8] Añadiendo repositorio de Docker a APT..."
+# 5. Añadir repositorio Docker
+echo "➕ [4/8] Configurando repositorio APT de Docker..."
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
   https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# 5. Instalar Docker Engine y CLI
-echo "⬇️ [5/8] Instalando Docker Engine..."
+# 6. Instalar Docker Engine + CLI + Compose plugin
+echo "⬇️ [5/8] Instalando Docker Engine y Docker Compose..."
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# 6. Verificar instalación
-echo "🔍 [6/8] Verificando instalación de Docker..."
+# 7. Verificar instalación
+echo "🔍 [6/8] Verificando instalación..."
 docker --version
 docker compose version
 
-# 7. Agregar el usuario actual al grupo 'docker'
-echo "👤 [7/8] Añadiendo el usuario actual al grupo docker..."
+# 8. Añadir usuario al grupo docker
+echo "👤 [7/8] Añadiendo el usuario '$USER' al grupo docker..."
 sudo usermod -aG docker "$USER"
-echo "⚠️ Debes cerrar sesión y volver a iniciarla para usar Docker sin sudo."
+echo "⚠️ Recuerda cerrar sesión o reiniciar para aplicar los permisos."
 
-# 8. Mensaje final
+# 9. Mensaje final
 echo
-echo "🎉 Docker y Docker Compose han sido instalados correctamente."
-echo "🔁 Reinicia tu sesión para aplicar los cambios de grupo."
+echo "🎉 [8/8] Docker y Docker Compose han sido instalados y configurados exitosamente."
