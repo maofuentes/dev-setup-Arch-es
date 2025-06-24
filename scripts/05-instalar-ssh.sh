@@ -57,6 +57,13 @@ fi
 
 echo "✅ Clave copiada al portapapeles (si es compatible)."
 
+# 🔔 Separador visual para indicar tarea manual del usuario
+echo
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📌 Acción requerida: agrega la clave en GitHub"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo
+
 # 6. Instrucciones para GitHub
 echo "🌐 [6/7] Abre este enlace para agregar la clave pública a tu cuenta de GitHub:"
 echo "➡️  https://github.com/settings/ssh/new"
