@@ -3,7 +3,7 @@ set -e
 
 # Script para instalar y configurar Python en Ubuntu con pyenv
 # Autor: Brayan Diaz C
-# Fecha: 23 ene 2025 (actualizado 21 jun 2025)
+# Fecha: 24 jun 2025
 
 echo "🐍 Iniciando el proceso de instalación y configuración de Python con pyenv..."
 
@@ -71,9 +71,20 @@ eval "$(pyenv init -)"
 echo "📜 [4/10] Estas son las versiones de Python disponibles:"
 pyenv install --list
 
-# 6. Solicitar versión o usar la última estable
+# 6. Mostrar versiones disponibles
+echo "📜 [4/10] Estas son algunas versiones de Python disponibles:"
+pyenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 20
+
+# 7. Solicitar versión con opción por defecto automática
 python_latest=$(pyenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
-read_prompt "👉 ¿Qué versión de Python deseas instalar? (ENTER para instalar la última versión estable: $python_latest): " python_version
+
+echo
+echo "--------------------------------------------------"
+echo "🎯 ¡Atención! Se detectó que la última versión estable de Python es: $python_latest"
+echo "👉 Si no estás seguro, solo presiona ENTER para instalarla automáticamente."
+echo "--------------------------------------------------"
+read_prompt "¿Qué versión de Python deseas instalar?: " python_version
+echo
 
 if [[ -z "$python_version" ]]; then
   python_version=$python_latest
@@ -82,25 +93,28 @@ else
   echo "📥 Se instalará Python $python_version según tu elección."
 fi
 
-# 7. Instalar y establecer versión global
+# 8. Instalar y establecer versión global
 echo "⬇️ [5/10] Instalando Python $python_version..."
 pyenv install "$python_version"
 pyenv global "$python_version"
 
-# 8. Verificar instalación
+# 9. Verificar instalación
 echo "🔍 [6/10] Verificando instalación..."
 python --version
 
-# 9. Instalar pip y paquetes básicos
+# 10. Instalar pip y paquetes básicos
 echo "📦 [7/10] Instalando pip y herramientas esenciales..."
 curl -sS https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
 rm get-pip.py
 pip install --upgrade pip setuptools wheel
 
-# 10. Instrucciones futuras
+# 11. Instrucciones futuras
 echo "🛠️ [8/10] Para actualizar pyenv en el futuro:"
 echo "cd ~/.pyenv && git pull"
 
+# 12. Recargar shell para aplicar los cambios
 echo
-echo "🎉 Python $python_version ha sido instalado y configurado exitosamente con pyenv."
+echo "🔄 Recargando la terminal para aplicar todos los cambios..."
+echo "💡 Una vez reiniciado, puedes verificar con: python --version"
+exec $SHELL
