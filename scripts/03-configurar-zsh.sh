@@ -3,7 +3,7 @@ set -e
 
 # Script para configurar Oh My Zsh en Ubuntu y WSL
 # Autor: Brayan Diaz C
-# Fecha: 20 jun 2025
+# Fecha: 24 jun 2025
 
 echo "🔧 Iniciando la instalación de plugins para Zsh y Oh My Zsh en tu sistema..."
 
@@ -20,19 +20,15 @@ else
   echo "⚠️ No se encontró la línea de plugins en .zshrc. Añádela manualmente."
 fi
 
-# 3. Crear .zprofile si no existe y asegurar que cargue .zshrc
+# 3. Crear .zprofile si no existe (sin cargar .zshrc)
 echo "🧩 Verificando archivo .zprofile..."
 if [ ! -f "$HOME/.zprofile" ]; then
   echo "📄 Creando archivo .zprofile..."
   touch "$HOME/.zprofile"
 fi
 
-if ! grep -q 'source ~/.zshrc' "$HOME/.zprofile"; then
-  echo "🔄 Añadiendo carga de .zshrc en .zprofile..."
-  echo '' >> "$HOME/.zprofile"
-  echo '# Cargar configuración de Zsh interactiva también en login shells' >> "$HOME/.zprofile"
-  echo 'source ~/.zshrc' >> "$HOME/.zprofile"
-fi
+# ⚠️ No se añade source ~/.zshrc para evitar conflictos con herramientas como pyenv
+echo "✅ Archivo .zprofile verificado."
 
 # 4. Aplicar cambios (solo surtirá efecto en sesión interactiva actual)
 echo "🔁 Aplicando cambios..."
