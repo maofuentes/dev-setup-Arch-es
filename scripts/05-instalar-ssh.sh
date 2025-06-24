@@ -3,7 +3,7 @@ set -e
 
 # Script para generar y configurar claves SSH para Git y GitHub
 # Autor: Brayan Diaz C
-# Fecha: 30 oct 2024 (actualizado 20 jun 2025)
+# Fecha: 24 jun 2025
 
 echo "🔐 Iniciando el proceso de generación y configuración de claves SSH para GitHub..."
 
@@ -20,9 +20,13 @@ if [ -f ~/.ssh/id_rsa ]; then
   fi
 fi
 
-# 2. Generar una nueva clave SSH con comentario personalizado
-echo "✍️ [2/7] Generando nueva clave SSH..."
-read -p "🔖 Escribe un nombre o comentario para tu clave SSH (ej: github-laptop-2025): " ssh_comment
+# 2. Generar una nueva clave SSH con nombre automático por defecto
+default_comment="$(hostname)-ssh"
+echo "💡 Nombre sugerido para la clave SSH: $default_comment"
+read -p "🔖 Escribe un nombre o comentario para tu clave SSH (ENTER para usar '$default_comment'): " ssh_comment
+ssh_comment=${ssh_comment:-$default_comment}
+
+echo "✍️ [2/7] Generando nueva clave SSH con el comentario: $ssh_comment..."
 ssh-keygen -q -t rsa -b 4096 -C "$ssh_comment" -f ~/.ssh/id_rsa -N ""
 
 # 3. Iniciar el agente SSH
@@ -58,7 +62,7 @@ echo "🌐 [6/7] Abre este enlace para agregar la clave pública a tu cuenta de 
 echo "➡️  https://github.com/settings/ssh/new"
 echo "1. Inicia sesión en tu cuenta de GitHub."
 echo "2. Pega la clave pública copiada."
-echo "3. Asigna un título como 'Clave SSH de mi PC'."
+echo "3. Asigna un título como: $ssh_comment"
 echo "4. Haz clic en 'Add SSH key'."
 
 # 7. Probar conexión
