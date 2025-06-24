@@ -59,9 +59,13 @@ if [ "$usar_plantilla" = "y" ]; then
     curl -fsSL https://raw.githubusercontent.com/brayandiazc/gitmessage-template-es/main/.gitmessage -o ~/.gitmessage
     git config --global commit.template ~/.gitmessage
     echo "📄 Plantilla configurada. Este es su contenido:"
-    echo "--------------------------------------------------"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
     cat ~/.gitmessage
-    echo "--------------------------------------------------"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo
+    echo "🧠 Recuerda que esta plantilla se abrirá cada vez que ejecutes:"
+    echo "   git commit"
+    echo "Y deberás escribir tu mensaje debajo de las instrucciones visibles."
 else
     echo "❌ Plantilla no configurada. Puedes añadirla manualmente más tarde si lo deseas."
 fi
@@ -71,4 +75,5 @@ echo "📋 [7/8] Configuración actual de Git:"
 git config --list
 
 # 8. Mensaje final
+echo
 echo "🎉 [8/8] Git ha sido instalado y configurado exitosamente."
