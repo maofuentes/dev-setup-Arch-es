@@ -3,7 +3,7 @@ set -e
 
 # Script para instalar y configurar PostgreSQL en Ubuntu/WSL
 # Autor: Brayan Diaz C
-# Fecha: 13 nov 2024 (actualizado 21 jun 2025)
+# Fecha: 25 jun 2025
 
 echo "🐘 Iniciando el proceso de instalación y configuración de PostgreSQL..."
 
@@ -23,11 +23,19 @@ read_prompt() {
 echo "📦 [1/9] Actualizando sistema..."
 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
 
-# 2. Solicitar versión (por defecto 16)
-default_pg_version="16"
-read_prompt "👉 ¿Qué versión de PostgreSQL deseas instalar? (ENTER para instalar $default_pg_version): " pg_version
+# 2. Mostrar ayuda visual y solicitar versión
+default_pg_version="17"
+echo
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🎯 Se instalará PostgreSQL en tu sistema"
+echo "🔢 Versión por defecto sugerida: $default_pg_version"
+echo "👉 Si no estás seguro, presiona ENTER para continuar con esta versión."
+echo "💡 También puedes escribir una versión diferente (ej: 16, 15, etc)."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+read_prompt "¿Qué versión de PostgreSQL deseas instalar?: " pg_version
 pg_version=${pg_version:-$default_pg_version}
 echo "🔁 Se instalará PostgreSQL $pg_version"
+echo
 
 # 3. Añadir repositorio oficial
 echo "➕ [2/9] Añadiendo el repositorio oficial de PostgreSQL..."
