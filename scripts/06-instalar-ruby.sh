@@ -3,7 +3,7 @@ set -e
 
 # Script para instalar y configurar Ruby en Ubuntu con rbenv
 # Autor: Brayan Diaz C
-# Fecha: 4 dic 2024 (actualizado 20 jun 2025)
+# Fecha: 24 jun 2025
 
 echo "💎 Iniciando el proceso de instalación y configuración de Ruby con rbenv..."
 
@@ -81,7 +81,13 @@ rbenv install --list
 # 7. Solicitar versión con opción por defecto automática
 echo
 ruby_latest=$(rbenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
-read_prompt "👉 ¿Qué versión de Ruby deseas instalar? (ENTER para instalar la última versión estable: $ruby_latest): " ruby_version
+
+echo "--------------------------------------------------"
+echo "🎯 ¡Atención! Se detectó que la última versión estable de Ruby es: $ruby_latest"
+echo "👉 Si no estás seguro, solo presiona ENTER para instalarla automáticamente."
+echo "--------------------------------------------------"
+read_prompt "¿Qué versión de Ruby deseas instalar?: " ruby_version
+echo
 
 if [[ -z "$ruby_version" ]]; then
   ruby_version=$ruby_latest
@@ -113,3 +119,8 @@ echo "cd \"\$(rbenv root)/plugins/ruby-build\" && git pull"
 
 echo
 echo "🎉 Ruby $ruby_version ha sido instalado y configurado exitosamente con rbenv."
+
+# 12. Recargar terminal automáticamente
+echo
+echo "🔄 Recargando terminal para aplicar cambios..."
+exec $SHELL
