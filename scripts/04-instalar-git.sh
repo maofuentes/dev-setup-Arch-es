@@ -3,7 +3,7 @@ set -e
 
 # Script para instalar y configurar Git en Ubuntu/WSL
 # Autor: Brayan Diaz C
-# Fecha: 21 jun 2025
+# Fecha: 24 jun 2025
 
 echo "🔧 Iniciando la instalación y configuración de Git en tu sistema..."
 
@@ -58,10 +58,10 @@ if [ "$usar_plantilla" = "y" ]; then
     echo "📥 Descargando plantilla desde GitHub..."
     curl -fsSL https://raw.githubusercontent.com/brayandiazc/gitmessage-template-es/main/.gitmessage -o ~/.gitmessage
     git config --global commit.template ~/.gitmessage
-
-    echo "🛠️ Abriendo plantilla con nano para edición opcional..."
-    nano ~/.gitmessage
-    echo "✅ Plantilla configurada y lista para usar."
+    echo "📄 Plantilla configurada. Este es su contenido:"
+    echo "--------------------------------------------------"
+    cat ~/.gitmessage
+    echo "--------------------------------------------------"
 else
     echo "❌ Plantilla no configurada. Puedes añadirla manualmente más tarde si lo deseas."
 fi
