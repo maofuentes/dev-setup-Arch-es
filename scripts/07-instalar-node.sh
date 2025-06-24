@@ -3,7 +3,7 @@ set -e
 
 # Script para instalar y configurar Node.js en Ubuntu con nodenv
 # Autor: Brayan Diaz C
-# Fecha: 27 nov 2024 (actualizado 21 jun 2025)
+# Fecha: 24 jun 2025
 
 echo "🟢 Iniciando el proceso de instalación y configuración de Node.js con nodenv..."
 
@@ -71,13 +71,20 @@ else
   echo "✅ node-build ya está instalado."
 fi
 
-# 6. Mostrar versiones disponibles
-echo "📜 [5/10] Estas son las versiones de Node.js disponibles:"
-nodenv install --list
+# 6. Mostrar algunas versiones disponibles
+echo "📜 [5/10] Estas son algunas versiones recientes de Node.js disponibles:"
+nodenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 20
 
-# 7. Solicitar versión o usar la última
+# 7. Solicitar versión con ayuda visual
 node_latest=$(nodenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
-read_prompt "👉 ¿Qué versión de Node.js deseas instalar? (ENTER para instalar la última versión estable: $node_latest): " node_version
+
+echo
+echo "--------------------------------------------------"
+echo "🎯 ¡Atención! Se detectó que la última versión estable de Node.js es: $node_latest"
+echo "👉 Si no estás seguro, solo presiona ENTER para instalarla automáticamente."
+echo "--------------------------------------------------"
+read_prompt "¿Qué versión de Node.js deseas instalar?: " node_version
+echo
 
 if [[ -z "$node_version" ]]; then
   node_version=$node_latest
@@ -96,10 +103,13 @@ echo "🔍 [7/10] Verificando instalación..."
 node -v
 npm -v
 
-# 10. Instrucciones para actualizar
-echo "🛠️ [8/10] Para actualizar nodenv y node-build en el futuro:"
+# 10. Instrucciones para actualizar en el futuro
+echo "🛠️ [8/10] Para actualizar nodenv y node-build:"
 echo "cd ~/.nodenv && git pull"
 echo "cd \"\$(nodenv root)/plugins/node-build\" && git pull"
 
+# 11. Recargar terminal
 echo
-echo "🎉 Node.js $node_version ha sido instalado y configurado exitosamente con nodenv."
+echo "🔄 Recargando terminal para aplicar cambios..."
+echo "💡 Una vez reiniciado, puedes verificar con: node -v"
+exec $SHELL
