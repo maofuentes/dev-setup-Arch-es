@@ -75,14 +75,16 @@ pyenv install --list
 echo "📜 [4/10] Estas son algunas versiones de Python disponibles:"
 pyenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 20
 
-# 7. Solicitar versión con opción por defecto automática
+# 7. Solicitar versión con ayuda visual
 python_latest=$(pyenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
 
 echo
-echo "--------------------------------------------------"
-echo "🎯 ¡Atención! Se detectó que la última versión estable de Python es: $python_latest"
-echo "👉 Si no estás seguro, solo presiona ENTER para instalarla automáticamente."
-echo "--------------------------------------------------"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🎯 Última versión estable detectada de Python: $python_latest"
+echo
+echo "🧠 Puedes escribir una versión específica como: 3.12.3"
+echo "👉 O simplemente presiona ENTER para instalar la última versión estable mostrada arriba."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 read_prompt "¿Qué versión de Python deseas instalar?: " python_version
 echo
 
