@@ -21,6 +21,8 @@ Proyecto modular y ordenado que permite instalar y configurar cada tecnología p
     ├── 09-instalar-java.sh
     ├── 10-instalar-postgresql.sh
     └── 11-instalar-docker.sh
+    └── 12-instalar-terraform.sh
+    └── 13-instalar-kubernetes.sh
 ```
 
 ## ⚙️ Requisitos
