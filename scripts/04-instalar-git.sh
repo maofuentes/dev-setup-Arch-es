@@ -3,7 +3,7 @@ set -e
 
 # Script para instalar y configurar Git en Ubuntu/WSL
 # Autor: Brayan Diaz C
-# Fecha: 24 jun 2025
+# Fecha: 25 jun 2025
 
 echo "🔧 Iniciando la instalación y configuración de Git en tu sistema..."
 
@@ -70,10 +70,14 @@ else
     echo "❌ Plantilla no configurada. Puedes añadirla manualmente más tarde si lo deseas."
 fi
 
-# 7. Mostrar configuración actual
-echo "📋 [7/8] Configuración actual de Git:"
-git config --list
+# 7. Mostrar configuración actual usando cat
+echo
+echo "📋 [7/8] Este es el contenido actual de tu archivo ~/.gitconfig:"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+cat ~/.gitconfig
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
 # 8. Mensaje final
 echo
 echo "🎉 [8/8] Git ha sido instalado y configurado exitosamente."
+echo "🚀 Ahora puedes comenzar a usar Git en tu sistema."
