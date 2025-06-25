@@ -82,10 +82,12 @@ rbenv install --list
 echo
 ruby_latest=$(rbenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
 
-echo "--------------------------------------------------"
-echo "🎯 ¡Atención! Se detectó que la última versión estable de Ruby es: $ruby_latest"
-echo "👉 Si no estás seguro, solo presiona ENTER para instalarla automáticamente."
-echo "--------------------------------------------------"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🎯 ¡Atención! Se ha detectado que la última versión estable disponible es: $ruby_latest"
+echo
+echo "🧠 Puedes escribir una versión específica para instalarla (por ejemplo: 3.1.4)"
+echo "👉 O simplemente presiona ENTER para instalar la última versión estable mostrada arriba."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 read_prompt "¿Qué versión de Ruby deseas instalar?: " ruby_version
 echo
 
