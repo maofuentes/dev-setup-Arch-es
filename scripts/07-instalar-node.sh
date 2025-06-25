@@ -79,10 +79,12 @@ nodenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 20
 node_latest=$(nodenv install -l | grep -E '^\s*[0-9]+\.[0-9]+\.[0-9]+$' | tail -1 | tr -d ' ')
 
 echo
-echo "--------------------------------------------------"
-echo "🎯 ¡Atención! Se detectó que la última versión estable de Node.js es: $node_latest"
-echo "👉 Si no estás seguro, solo presiona ENTER para instalarla automáticamente."
-echo "--------------------------------------------------"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🎯 Última versión estable detectada de Node.js: $node_latest"
+echo
+echo "🧠 Puedes escribir una versión específica como: 20.12.2"
+echo "👉 O simplemente presiona ENTER para instalar la última versión estable mostrada arriba."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 read_prompt "¿Qué versión de Node.js deseas instalar?: " node_version
 echo
 
