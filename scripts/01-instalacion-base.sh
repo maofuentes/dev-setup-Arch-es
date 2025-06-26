@@ -19,30 +19,23 @@ sudo pacman -Syu && yay -Syu
 
 # 2. Limpiar el sistema
 echo "🧹 Limpiando paquetes y dependencias no utilizadas..."
-pacman -Rns $(pacman -Qdtq)
+#sudo pacman -Rns $(pacman -Qdtq)
 
 # 3. Instalar soporte para sistemas de archivos adicionales
 echo "💽 Instalando soporte para sistemas de archivos (exFAT, HFS+, NTFS)..."
-sudo pacman -S exfat-utils ntfs-3g
+sudo pacman -S --needed exfat-utils ntfs-3g
 
 # 4. Reconocimiento de smartphones
 echo "📱 Instalando herramientas para reconocimiento de smartphones..."
-sudo pacman -S mtp-tools android-file-transfer ifuse libimobiledevice usbmuxd 
+sudo pacman -S --needed android-file-transfer ifuse libimobiledevice usbmuxd 
 
 # 5. Manejo de archivos comprimidos
 echo "📦 Instalando utilidades de compresión (zip, rar, 7z)..."
-sudo pacman -S zip unzip unrar 7zip
+sudo pacman -S --needed zip unzip unrar 7zip
 
 # 6. Instalar librerías esenciales para desarrollo
 echo "🛠️ Instalando librerías de desarrollo..."
-sudo pacman -S \
-git-core build-essential curl wget openssl libssl-dev libreadline-dev \
-dirmngr zlib1g-dev libmagickwand-dev imagemagick-6.q16 libffi-dev \
-libpq-dev cmake libwebp-dev libyaml-dev libsqlite3-dev sqlite3 \
-libxml2-dev libxslt1-dev software-properties-common libcurl4-openssl-dev \
-libvips-dev ffmpeg libpoppler-dev mupdf make llvm libbz2-dev tree \
-libncurses5-dev libncursesw5-dev xz-utils tk-dev libxmlsec1-dev \
-liblzma-dev python3-openssl
+sudo pacman -Syu --needed git base-devel curl wget openssl readline gnupg zlib imagemagick libffi postgresql-libs cmake libwebp libyaml sqlite libxml2 libxslt curl libvips ffmpeg poppler mupdf make llvm bzip2 tree ncurses xz tk xmlsec xz python-pyopenssl
 
 echo "✅ ¡Sistema configurado exitosamente!"
 echo "🧠 Puedes continuar instalando herramientas específicas desde la carpeta scripts/"
