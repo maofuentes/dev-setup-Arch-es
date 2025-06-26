@@ -2,8 +2,8 @@
 set -e
 
 # Configurar entorno de desarrollo en Ubuntu/WSL
-# Actualizado: 18 jun 2025
-# Creador: Brayan Diaz C
+# Actualizado: 25 jun 2025
+# Creador: Brayan Diaz C Modificado por: Marcelo Antonio
 
 # Verificar acceso sudo antes de iniciar
 if sudo -v; then
@@ -15,11 +15,11 @@ fi
 
 # 1. Actualizar el sistema
 echo "📦 Actualizando el sistema..."
-sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y
+sudo pacman -Syu && yay -Syu
 
 # 2. Limpiar el sistema
 echo "🧹 Limpiando paquetes y dependencias no utilizadas..."
-sudo apt clean && sudo apt autoclean && sudo apt autoremove -y
+pacman -Rns $(pacman -Qdtq)
 
 # 3. Instalar soporte para sistemas de archivos adicionales
 echo "💽 Instalando soporte para sistemas de archivos (exFAT, HFS+, NTFS)..."
