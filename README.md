@@ -1,4 +1,4 @@
-# ⚙️ dev-setup-ubuntu-es
+# ⚙️ dev-setup-Archlinux-es
 
 Instaladores automatizados para configurar un entorno completo de desarrollo en Archlinux, usando herramientas modernas y gestionadas por versión: `zsh`, `git`, `ssh`, `ruby`, `node`, `python`, `java`, `postgresql`, `docker`.
 
