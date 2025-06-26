@@ -36,7 +36,7 @@ source ~/.zshrc
 
 # 5. Instalar fuentes Powerline
 echo "🔡 Instalando fuentes Powerline para una mejor visualización..."
-sudo apt install -y fonts-powerline
+sudo pacman -S powerline-fonts
 
 # 6. Mensaje final
 echo "✅ Configuración de Oh My Zsh completada con éxito."
