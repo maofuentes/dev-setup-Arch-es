@@ -9,11 +9,11 @@ echo "🔧 Iniciando la instalación de Zsh y Oh My Zsh en tu sistema..."
 
 # 1. Actualizar el sistema
 echo "📦 Actualizando el sistema..."
-sudo apt update && sudo apt upgrade -y
+sudo pacman -Syu && yay -Syu
 
 # 2. Instalar Zsh
 echo "📥 Instalando Zsh..."
-sudo apt install -y zsh
+sudo pacman -S zsh
 
 # Verificar instalación
 echo "🔍 Verificando versión de Zsh..."
@@ -21,7 +21,7 @@ zsh --version
 
 # 3. Verificar e instalar curl
 echo "📥 Verificando si curl está instalado..."
-sudo apt install -y curl
+sudo pacman -S curl
 
 # 4. Instalar Oh My Zsh
 echo "🎩 Instalando Oh My Zsh..."
