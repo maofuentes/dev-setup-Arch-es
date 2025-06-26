@@ -1,6 +1,6 @@
 # ⚙️ dev-setup-ubuntu-es
 
-Instaladores automatizados para configurar un entorno completo de desarrollo en Ubuntu o WSL, usando herramientas modernas y gestionadas por versión: `zsh`, `git`, `ssh`, `ruby`, `node`, `python`, `java`, `postgresql`, `docker`.
+Instaladores automatizados para configurar un entorno completo de desarrollo en Archlinux, usando herramientas modernas y gestionadas por versión: `zsh`, `git`, `ssh`, `ruby`, `node`, `python`, `java`, `postgresql`, `docker`.
 
 Proyecto modular y ordenado que permite instalar y configurar cada tecnología paso a paso con scripts independientes, seguros y comentados.
 
@@ -27,7 +27,7 @@ Proyecto modular y ordenado que permite instalar y configurar cada tecnología p
 
 ## ⚙️ Requisitos
 
-- Ubuntu 20.04+ / WSL
+- Archlinux
 - Conexión a internet
 - Permisos de superusuario (`sudo`)
 - Terminal con `bash` o `zsh`
