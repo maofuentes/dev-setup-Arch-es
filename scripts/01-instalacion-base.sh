@@ -23,19 +23,19 @@ pacman -Rns $(pacman -Qdtq)
 
 # 3. Instalar soporte para sistemas de archivos adicionales
 echo "💽 Instalando soporte para sistemas de archivos (exFAT, HFS+, NTFS)..."
-sudo apt install -y exfat-fuse hfsplus hfsutils ntfs-3g
+sudo pacman -S exfat-utils ntfs-3g
 
 # 4. Reconocimiento de smartphones
 echo "📱 Instalando herramientas para reconocimiento de smartphones..."
-sudo apt install -y mtp-tools ipheth-utils ideviceinstaller ifuse
+sudo pacman -S mtp-tools android-file-transfer ifuse libimobiledevice usbmuxd 
 
 # 5. Manejo de archivos comprimidos
 echo "📦 Instalando utilidades de compresión (zip, rar, 7z)..."
-sudo apt install -y zip unzip unrar p7zip-full
+sudo pacman -S zip unzip unrar 7zip
 
 # 6. Instalar librerías esenciales para desarrollo
 echo "🛠️ Instalando librerías de desarrollo..."
-sudo apt install -y \
+sudo pacman -S \
 git-core build-essential curl wget openssl libssl-dev libreadline-dev \
 dirmngr zlib1g-dev libmagickwand-dev imagemagick-6.q16 libffi-dev \
 libpq-dev cmake libwebp-dev libyaml-dev libsqlite3-dev sqlite3 \
